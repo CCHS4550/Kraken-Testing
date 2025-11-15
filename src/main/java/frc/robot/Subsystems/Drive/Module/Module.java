@@ -1,5 +1,5 @@
 package main.java.frc.robot.Subsystems.Drive.Module;
 
-public class Module {
+public class ModuleIO {
     
 }
