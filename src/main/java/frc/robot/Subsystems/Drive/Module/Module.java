@@ -1,5 +1,3 @@
-package main.java.frc.robot.Subsystems.Drive.Module;
+package frc.robot.Subsystems.Drive.Module;
 
-public class ModuleIO {
-    
-}
+public class Module {}
