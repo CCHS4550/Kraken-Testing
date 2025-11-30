@@ -32,6 +32,7 @@ public class ModuleIOHardware implements ModuleIO {
   private final int turnMotorID;
 
   private final boolean driveMotorInverted;
+  private final boolean turnMotorInverted;
 
   private final Debouncer driveDebouncer = new Debouncer(.5);
   private final Debouncer turnDebouncer = new Debouncer(.5);
@@ -84,6 +85,16 @@ public class ModuleIOHardware implements ModuleIO {
           default -> false;
         };
 
+    turnMotorInverted = 
+      switch (moduleID)
+      {
+        case 0 -> Constants.DriveConstants.frontLeftTurnInverted;
+        case 1 -> Constants.DriveConstants.frontRightTurnInverted;
+        case 2 -> Constants.DriveConstants.backLeftTurnInverted;
+        case 3 -> Constants.DriveConstants.backRightTurnInverted;
+        default -> false;
+      };
+
     absoluteEncoder.clearStickyFault_BadMagnet();
 
     // can't be bothered to figure out if reverse if "InvertedValue.CounterClockwise_Positive"
@@ -99,7 +110,7 @@ public class ModuleIOHardware implements ModuleIO {
     
 
     driveMotor = configureTalonFX(driveMotorID, 80, driveMotorInverted);
-    turnMotor = configureTalonFX(turnMotorID, 80);
+    turnMotor = configureTalonFX(turnMotorID, 80, turnMotorInverted);
   }
 
   @Override
@@ -128,7 +139,7 @@ public class ModuleIOHardware implements ModuleIO {
     configuration.CurrentLimits.SupplyCurrentLimit = currentLimit;
 
     //for this one i have no fucking idea and im tired now
-    configuration.MotorOutput.Inverted = new InvertedValue((inverted) ? 1 : 0);
+    configuration.MotorOutput.Inverted = (inverted) ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
 
     return motor;
   }
