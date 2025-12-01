@@ -11,10 +11,13 @@ public interface ArmIO {
     
     // tracking variables for the first arm motor
     public boolean armConnected = false;
-    public double armPositionRad = 0.0;
+    public Rotation2d armPositionRad = new Rotation2d(0.0);
     public double armVelocityRadPerSec = 0.0;
     public double armAppliedVolts = 0.0;
     public double armCurrentAmps = 0.0;
+
+    public double armTemperature = 0.0;
+
 
     
     }
@@ -27,6 +30,9 @@ public interface ArmIO {
   public default void setArmOpenLoop(double voltage) {}
 
   /** Run ths (Arm motor to the specified angle. */
-  public default void setArmPos(Rotation2d angle, double arbFF) {}
+  public default void setArmPos(Rotation2d angle) {}
+
+  /* Refreshes the "statussignal" stuff*/
+  public default void refreshData () {}
 
 }
